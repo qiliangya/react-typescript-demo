@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'antd';
+import { Button, Icon } from 'antd';
 import './index.scss';
+import ControlPage from '../../layout/components/ControlPage';
 
 interface ICanvasProps {
   width: number
@@ -8,14 +9,17 @@ interface ICanvasProps {
 }
 
 interface IProps {
-
+  router: {
+    goBack: () => {},
+    push: (pathName: string) => {}
+  }
 }
 
 interface IState {
   canvasProps: ICanvasProps
 }
 
-class App extends Component<IProps, IState> {
+class RotateCross extends Component<IProps, IState> {
   public speed: number = 1
   public rectWidth: number = 10
   public deg: number = 0
@@ -85,9 +89,11 @@ class App extends Component<IProps, IState> {
     return (
       <div className="App">
         <canvas id="myCanvas" width={ canvasProps.width } height={ canvasProps.height }></canvas>
+        <p className="text-center">旋转十字架</p>
+        <ControlPage {...this.props}/>
       </div>
     );
   }
 }
 
-export default App;
+export default RotateCross;
