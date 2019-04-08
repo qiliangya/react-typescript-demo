@@ -44,8 +44,8 @@ class DownBall extends Component<IProps, IState> {
       ballHeight: radius,
       speed: 0,
       lineBottomY: 700,
-      bounce: -0.8,
-      a: 0.3
+      bounce: -.7,
+      a: .4
     }
   }
 
@@ -71,18 +71,21 @@ class DownBall extends Component<IProps, IState> {
   }
 
   public startAnimation () {
-    let { radius, color, ballHeight, lineBottomY } = this.ballProps
+    let { radius, color, ballHeight, lineBottomY, a, bounce } = this.ballProps
     const { canvasWidth, canvasHeight } = this.state
     this.ballCanvasRender.clearRect(0, 0, canvasWidth, canvasHeight);
     this.createBottomLine()
     this.ballCanvasRender.fillStyle = color
     this.ballCanvasRender.arc(canvasWidth / 2, ballHeight, radius, 0, PI * 2, false)
     this.ballCanvasRender.fill()
-    this.ballProps.speed += (this.ballProps.a)
+    this.ballProps.speed += a
     this.ballProps.ballHeight += this.ballProps.speed
     if (ballHeight + radius > lineBottomY) {
-      this.ballProps.ballHeight = ballHeight - radius
-      this.ballProps.speed *= this.ballProps.bounce
+      this.ballProps.ballHeight = lineBottomY - radius
+      this.ballProps.speed *= bounce
+      if (Math.abs(this.ballProps.speed) < 2 * a) {
+        return false
+      }
     }
     window.requestAnimationFrame(this.startAnimation.bind(this))
   }
